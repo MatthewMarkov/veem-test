@@ -57,16 +57,25 @@ function App() {
             Product
           </div>
           <div className={'filter__item'}>
-            <input type="checkbox" id="VBR" name="VBR"/>
-            <label htmlFor="VBR">VBR</label>
+            <label className={'checkbox'}>
+              <input type="checkbox" name="VBR"/>
+              <div>VBR</div>
+              <span className="checkmark"/>
+            </label>
           </div>
           <div className={'filter__item'}>
-            <input type="checkbox" id="Veeam ONE" name="Veeam ONE"/>
-            <label htmlFor="Veeam ONE">Veeam ONE</label>
+            <label className={'checkbox'}>
+              <input type="checkbox" name="Veeam ONE" />
+              <div>Veeam ONE</div>
+              <span className="checkmark"/>
+            </label>
           </div>
           <div className={'filter__item'}>
-            <input type="checkbox" id="VBO" name="VBO"/>
-            <label htmlFor="VBO">VBO</label>
+            <label className={'checkbox'}>
+              <input type="checkbox" name="VBO"/>
+              <div>VBO</div>
+              <span className="checkmark"/>
+            </label>
           </div>
         </div>
         <div className={'filter filter_volumed'}>
@@ -74,12 +83,18 @@ function App() {
             Visibility
           </div>
           <div className={'filter__item'}>
-            <input type="checkbox" id="Internal only" name="Internal only"/>
-            <label htmlFor="Internal only">Internal only</label>
+            <label className={'checkbox'}>
+              <input type="checkbox" name="Internal only"/>
+              <div>Internal only</div>
+              <span className="checkmark"/>
+            </label>
           </div>
           <div className={'filter__item'}>
-            <input type="checkbox" id="Public" name="Public"/>
-            <label htmlFor="Public">Public</label>
+            <label className={'checkbox'}>
+              <input type="checkbox" id="Public" name="Public" className={'checkbox'}/>
+              <div>Public</div>
+              <span className="checkmark"/>
+            </label>
           </div>
         </div>
       </div>

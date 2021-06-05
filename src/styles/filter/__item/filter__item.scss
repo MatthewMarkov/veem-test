@@ -4,9 +4,12 @@
   align-items: center;
   height: 40px;
   border-bottom: 1px solid #C4C4C4;
-  padding-left: 15px;
+  //padding-left: 15px;
   color: rgba(0, 0, 0, 0.6);
   &:last-child{
     border-bottom: none;
+  }
+  &:hover{
+    background: #F1F1F1;
   }
 }
