@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { CardItem } from "./components/CardItem";
+import { Filters } from "./components/Filters";
 import logo from './logo.svg';
 import './styles/app/app.scss';
 
-function App() {
-  const [data, setData] = useState([
+const testData = {
+  "data": [
     {
+      "id": 1,
       "title": "Veeam ONE v10 - what's new",
       "publicationDate": "2020-02-17T17:58:09.0000000Z",
       "author": "Renat Fateev",
@@ -16,6 +19,7 @@ function App() {
       "editFormLink": "https://..."
     },
     {
+      "id": 2,
       "title": "Detecting Ransomware With Veeam",
       "publicationDate": "2020-02-25T17:58:09.0000000Z",
       "author": "Alexander Shelopukho",
@@ -27,6 +31,7 @@ function App() {
       "editFormLink": "https://..."
     },
     {
+      "id": 3,
       "title": "Detecting Ransomware With Veeam",
       "publicationDate": "2020-02-25T17:58:09.0000000Z",
       "author": "Alexander Shelopukho",
@@ -38,6 +43,7 @@ function App() {
       "editFormLink": "https://..."
     },
     {
+      "id": 4,
       "title": "Detecting Ransomware With Veeam",
       "publicationDate": "2020-02-25T17:58:09.0000000Z",
       "author": "Alexander Shelopukho",
@@ -46,64 +52,24 @@ function App() {
       "visibility": "Partners",
       "link": "https://...",
       "downloadLink": "https://...",
-      "editFormLink": "https://..."
+        "editFormLink": "https://..."
     }
-  ])
+
+  ]
+}
+function App() {
+  const string = JSON.stringify(testData)
+  const [data, setData] = useState([...JSON.parse(string).data])
+  console.log(data)
   return (
     <div className="App">
-      <div className={'filters'}>
-        <div className={'filter'}>
-          <div className={'filter__header'}>
-            Product
-          </div>
-          <div className={'filter__item'}>
-            <label className={'checkbox'}>
-              <input type="checkbox" name="VBR"/>
-              <div>VBR</div>
-              <span className="checkmark"/>
-            </label>
-          </div>
-          <div className={'filter__item'}>
-            <label className={'checkbox'}>
-              <input type="checkbox" name="Veeam ONE" />
-              <div>Veeam ONE</div>
-              <span className="checkmark"/>
-            </label>
-          </div>
-          <div className={'filter__item'}>
-            <label className={'checkbox'}>
-              <input type="checkbox" name="VBO"/>
-              <div>VBO</div>
-              <span className="checkmark"/>
-            </label>
-          </div>
-        </div>
-        <div className={'filter filter_volumed'}>
-          <div className={'filter__header'}>
-            Visibility
-          </div>
-          <div className={'filter__item'}>
-            <label className={'checkbox'}>
-              <input type="checkbox" name="Internal only"/>
-              <div>Internal only</div>
-              <span className="checkmark"/>
-            </label>
-          </div>
-          <div className={'filter__item'}>
-            <label className={'checkbox'}>
-              <input type="checkbox" id="Public" name="Public" className={'checkbox'}/>
-              <div>Public</div>
-              <span className="checkmark"/>
-            </label>
-          </div>
-        </div>
-      </div>
+      <Filters/>
       <div className={'main'}>
         <div className={'header'}></div>
         <div className={'listing'}>
           {data.map(item => (
-            <div></div>
-          ) )}
+            <CardItem key={item.id} {...item}/>
+          ))}
         </div>
       </div>
     </div>

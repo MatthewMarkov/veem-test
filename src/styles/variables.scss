@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: local("./public/OpenSans-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: local("./public/OpenSans-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+//colors
+
+$primary: #00B336;
+$secondary: #00000099;
+$secondary-light: #00000066;
+$default: #232323;
+
+//font-size
+
+$default: 16px;
+$large: 24px;
+
+//font-family
+
+$default-font-family: 'Open Sans', sans-serif

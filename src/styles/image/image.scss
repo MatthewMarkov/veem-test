@@ -1,0 +1,14 @@
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 154px;
+  height: 154px;
+  border: 1px solid #CDCDCD;
+  & >:only-child{
+    display: block;
+    width: 124px;
+    height: 100px;
+    background: #00B336;
+  }
+}

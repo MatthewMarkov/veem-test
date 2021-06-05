@@ -1,13 +1,19 @@
-@import "../styles/app/app";
-@import "../styles/filters/filters";
+@import "variables";
+@import "app/app";
+@import "filters/filters";
 @import "filter/filter";
 @import "filter/__item/filter__item";
 @import "filter/__header/filter__header";
 @import "filter/_volumed/filter_volumed";
-@import "../styles/main/main";
+@import "main/main";
 @import "checkbox/checkbox";
+@import "card/card";
+@import "card/__image-column/card__image-column";
+@import "card/__info-column/card__info-column";
+@import "image/image";
 
 * {
   box-sizing: border-box;
   font-size: 16px;
+  font-family: $default-font-family;
 }
