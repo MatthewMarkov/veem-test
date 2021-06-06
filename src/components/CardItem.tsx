@@ -1,3 +1,7 @@
+import moment from "moment";
+import React from "react";
+import { chainIcon, downloadIcon, penIcon } from "./icons";
+
 type Props = {
   title: string
   publicationDate: Date
@@ -22,6 +26,7 @@ export const CardItem = (data: Props) => {
     title,
     visibility
   } = data
+  const authorCredentials = author.split(' ')
   return (
     <div className={'card'}>
       <div className={'card__image-column'}>
@@ -30,7 +35,25 @@ export const CardItem = (data: Props) => {
         </div>
       </div>
       <div className={'card__info-column'}>
-        <div className={'info-column-header'}></div>
+        <div className={'card__header'}>
+          <a href={link} target="_blank">{title}</a>
+        </div>
+        <div className={'card__body'}>
+          <div className={'card__description'}>{shortDescription}</div>
+        </div>
+        <div className={'card__footer'}>
+          <a href={''} target="_blank">{chainIcon}Copy</a>
+          <a href={downloadLink} target="_blank">{downloadIcon}Download</a>
+          <a href={editFormLink} target="_blank">{penIcon}Update</a>
+        </div>
+      </div>
+      <div className={'card__reference-column'}>
+        <div>
+          {authorCredentials[0]}
+          <br/>
+          {authorCredentials[1]}
+        </div>
+        <div>{moment(publicationDate).format("MMM D, YYYY")}</div>
       </div>
     </div>
   )

@@ -1,6 +1,8 @@
+import React from "react"
+
 export const Filters = () => {
   return (
-    <div className={'filters'}>
+    <div className={'filters app__filters'}>
       <div className={'filter'}>
         <div className={'filter__header'}>
           Product

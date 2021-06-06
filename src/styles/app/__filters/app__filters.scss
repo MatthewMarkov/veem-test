@@ -1,0 +1,7 @@
+.app__filters{
+  flex: 3 0 270px;
+  margin-right: 30px;
+  & >:first-child{
+    margin-bottom: 30px;
+  }
+}

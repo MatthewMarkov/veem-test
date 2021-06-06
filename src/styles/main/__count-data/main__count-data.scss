@@ -1,0 +1,7 @@
+.main__count-data{
+  display: flex;
+  color:  $secondary-light-color;
+  & >:first-child{
+    margin-right: 20px;
+  }
+}

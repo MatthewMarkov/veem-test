@@ -1,0 +1,15 @@
+.card__footer{
+  color: $primary-color;
+  a{
+    color: $primary-color;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  & >:nth-child(n){
+    margin-right: 30px;
+    & >:first-child{
+      margin-right: 10px;
+    }
+  }
+}

@@ -1,3 +1,9 @@
 .card__info-column{
-  flex: 7 0 70%
+  display: flex;
+  flex-flow: column nowrap;
+  //justify-content: space-between;
+  margin-bottom: 20px;
+  margin-left: 30px;
+  align-items: flex-start;
+  flex: 6 0 60%;
 }
