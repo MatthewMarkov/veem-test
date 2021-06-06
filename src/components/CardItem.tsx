@@ -1,20 +1,9 @@
 import moment from "moment";
 import React from "react";
+import { Data } from "../App";
 import { chainIcon, downloadIcon, penIcon } from "./icons";
 
-type Props = {
-  title: string
-  publicationDate: Date
-  author: string
-  shortDescription: string
-  product: string
-  visibility: 'Public' | 'Partners'
-  link: string
-  downloadLink: string
-  editFormLink: string
-}
-
-export const CardItem = (data: Props) => {
+export const CardItem = (data: Data) => {
   const {
     author,
     downloadLink,
