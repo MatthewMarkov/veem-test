@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { CardItem } from "./components/CardItem";
-import { Filters } from "./components/Filters";
+import { filterQuery, Filters, filterType } from "./components/Filters";
 import logo from './logo.svg';
 import './styles/app/app.scss';
 
@@ -68,7 +68,7 @@ export type Data = {
   author: string
   shortDescription: string
   product: string
-  visibility: 'Public' | 'Partners'
+  visibility: visibilityType
   link: string
   downloadLink: string
   editFormLink: string
@@ -113,18 +113,19 @@ function App() {
       setActive("popular")
     }
   }
-  const filterData = (query: {product?: Array<productType>, visibility?: Array<visibilityType>}) => {
-    const filteredData = [...JSON.parse(string).data].filter( (item) => {
-      for (let key in query) {
-        // @ts-ignore
-        if (item[key] === undefined || !query[key].includes(item[key])) {
-          debugger
-          return false;
+  const filterData = (query: filterQuery) => {
+    const filteredData = [...JSON.parse(string).data as Array<Data>].filter( (item) => {
+      let key: filterType
+      for ( key in query) {
+        if (query.hasOwnProperty(key)){
+          // @ts-ignore
+          if (item[key] === undefined || !query[key].includes(item[key])) {
+            return false;
+          }
         }
       }
       return true;
     });
-    debugger
     setData(filteredData);
   };
   return (
@@ -135,13 +136,18 @@ function App() {
           <div className={'main__count-data'}>
             <div>Total amount: {data.length}</div>
             <div>Uploaded in last month: {calculateRecentPublications()}</div>
-           {/* <div>{String([...filter.product])}</div>
-            <div>{String(...filter.visibility)}</div>*/}
+
           </div>
           <div className={'main__sorting'}>
-            <button className={active === "popular" ? 'main__sorting_active' : ''} onClick={() => sortData("popular")}>Popular</button>
+            <button
+              className={active === "popular" ? 'main__sorting_active' : ''}
+              onClick={() => sortData("popular")}
+            >Popular</button>
             |
-            <button className={active === "resent" ? 'main__sorting_active' : ''} onClick={() => sortData("resent")}>Recent</button>
+            <button
+              className={active === "resent" ? 'main__sorting_active' : ''}
+              onClick={() => sortData("resent")}
+            >Recent</button>
           </div>
         </div>
         <div className={'listing'}>

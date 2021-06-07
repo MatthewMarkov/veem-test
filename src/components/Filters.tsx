@@ -4,9 +4,9 @@ import { Data, productType, visibilityType } from "../App";
 type props = {
   filterData: (query: {product?: Array<productType>, visibility?: Array<visibilityType>}) => void
 }
-type filterType = 'product' | 'visibility'
-type filtersCollectionType = {product: Array<productType>, visibility: Array<visibilityType> }
-type filterQuery = {
+export type filterType = 'product' | 'visibility'
+export type filtersCollectionType = {product: Array<productType>, visibility: Array<visibilityType> }
+export type filterQuery = {
   product?: Array<productType>
   visibility?: Array<visibilityType>
 }
@@ -40,8 +40,11 @@ export const Filters: VFC<props> = (props) => {
     let query = {} as filterQuery
     let key: filterType
     for (key in filter) {
-      if (filter[key].length > 0) {
-        query[key] = filter[key];
+      if(filter.hasOwnProperty(key)) {
+        if (filter[key].length > 0) {
+          // @ts-ignore
+          query[key] = filter[key];
+        }
       }
     }
     return query;
