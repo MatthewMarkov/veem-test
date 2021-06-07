@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { CardItem } from "./components/CardItem";
 import { Filters } from "./components/Filters";
@@ -58,6 +58,9 @@ const testData = {
 
   ]
 }
+export type productType = 'VBR' | 'Veeam ONE' | 'VBO'
+export type visibilityType = 'Public' | 'Partners'
+export type sortingType = 'resent' | 'popular'
 export type Data = {
   id: number
   title: string
@@ -74,9 +77,16 @@ export type Data = {
 function App() {
   const string = JSON.stringify(testData)
   const [data, setData] = useState<Array<Data>>([...JSON.parse(string).data])
-  const [active, setActive] = useState<'resent' | 'popular' | null>(null)
-  console.log()
+  const [active, setActive] = useState<sortingType | null>(null)
+  const [filter, setFilter] = useState<{product: Array<productType>, visibility: Array<visibilityType> }>({
+    product: [],
+    visibility: []
+  })
+/*  console.log(filter)
 
+  useEffect(() => {
+
+  }, [filter])*/
   const calculateRecentPublications = (): number => {
     const currentData = Date.now(),
     recentPeriod = 2628000000,
@@ -88,8 +98,9 @@ function App() {
     }
     return recentPubCount
   }
-  const sortData = (sortBy: 'recent' | 'popular') => {
-    if (sortBy === "recent") {
+  const sortData = (sortBy: sortingType) => {
+    console.log(filter)
+    if (sortBy === "resent") {
       if (active === "resent") {
         setData([...JSON.parse(string).data])
         setActive(null)
@@ -113,17 +124,19 @@ function App() {
   }
   return (
     <div className="app">
-      <Filters/>
+      <Filters setFilter={setFilter} />
       <div className={'main app__main'}>
         <div className={'main__header'}>
           <div className={'main__count-data'}>
             <div>Total amount: {data.length}</div>
             <div>Uploaded in last month: {calculateRecentPublications()}</div>
+           {/* <div>{String([...filter.product])}</div>
+            <div>{String(...filter.visibility)}</div>*/}
           </div>
           <div className={'main__sorting'}>
             <button className={active === "popular" ? 'main__sorting_active' : ''} onClick={() => sortData("popular")}>Popular</button>
             |
-            <button className={active === "resent" ? 'main__sorting_active' : ''} onClick={() => sortData("recent")}>Recent</button>
+            <button className={active === "resent" ? 'main__sorting_active' : ''} onClick={() => sortData("resent")}>Recent</button>
           </div>
         </div>
         <div className={'listing'}>
