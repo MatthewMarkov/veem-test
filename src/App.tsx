@@ -78,15 +78,7 @@ function App() {
   const string = JSON.stringify(testData)
   const [data, setData] = useState<Array<Data>>([...JSON.parse(string).data])
   const [active, setActive] = useState<sortingType | null>(null)
-  const [filter, setFilter] = useState<{product: Array<productType>, visibility: Array<visibilityType> }>({
-    product: [],
-    visibility: []
-  })
-/*  console.log(filter)
 
-  useEffect(() => {
-
-  }, [filter])*/
   const calculateRecentPublications = (): number => {
     const currentData = Date.now(),
     recentPeriod = 2628000000,
@@ -98,11 +90,10 @@ function App() {
     }
     return recentPubCount
   }
-  const sortData = (sortBy: sortingType) => {
-    console.log(filter)
+  const sortData = (sortBy: sortingType): void => {
     if (sortBy === "resent") {
       if (active === "resent") {
-        setData([...JSON.parse(string).data])
+        setData([...data].sort((a, b) => a.id - b.id))
         setActive(null)
         return
       }
@@ -122,9 +113,23 @@ function App() {
       setActive("popular")
     }
   }
+  const filterData = (query: {product?: Array<productType>, visibility?: Array<visibilityType>}) => {
+    const filteredData = [...JSON.parse(string).data].filter( (item) => {
+      for (let key in query) {
+        // @ts-ignore
+        if (item[key] === undefined || !query[key].includes(item[key])) {
+          debugger
+          return false;
+        }
+      }
+      return true;
+    });
+    debugger
+    setData(filteredData);
+  };
   return (
     <div className="app">
-      <Filters setFilter={setFilter} />
+      <Filters filterData={filterData}/>
       <div className={'main app__main'}>
         <div className={'main__header'}>
           <div className={'main__count-data'}>

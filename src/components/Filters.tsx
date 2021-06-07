@@ -1,16 +1,28 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, VFC } from "react"
-import { productType, visibilityType } from "../App";
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, VFC } from "react"
+import { Data, productType, visibilityType } from "../App";
 
 type props = {
-  setFilter: Dispatch<SetStateAction<{ product: productType[]; visibility: visibilityType[]; }>>
+  filterData: (query: {product?: Array<productType>, visibility?: Array<visibilityType>}) => void
 }
 type filterType = 'product' | 'visibility'
-
+type filtersCollectionType = {product: Array<productType>, visibility: Array<visibilityType> }
+type filterQuery = {
+  product?: Array<productType>
+  visibility?: Array<visibilityType>
+}
 export const Filters: VFC<props> = (props) => {
-  const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, filter: filterType) => {
-    //const isChecked = event.target.checked
+  const [filter, setFilter] = useState<filtersCollectionType>({
+    product: [],
+    visibility: []
+  })
+  useEffect(() => {
+    const query = createQuery(filter)
+    props.filterData(query)
+  }, [filter])
+
+  const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, filter: filterType): void => {
     const fieldName = event.target.name as productType & visibilityType
-    props.setFilter((prevState => {
+    setFilter((prevState => {
       const localCopy = {
         product: [...prevState.product],
         visibility: [...prevState.visibility]
@@ -20,10 +32,21 @@ export const Filters: VFC<props> = (props) => {
       } else {
         localCopy[filter].push(fieldName)
       }
-      console.log(localCopy)
       return { ...localCopy }
-    }))
+    } ))
   }
+
+  const createQuery = (filter: filtersCollectionType): filterQuery  => {
+    let query = {} as filterQuery
+    let key: filterType
+    for (key in filter) {
+      if (filter[key].length > 0) {
+        query[key] = filter[key];
+      }
+    }
+    return query;
+  }
+
   return (
     <div className={'filters app__filters'}>
       <div className={'filter'}>
@@ -32,23 +55,36 @@ export const Filters: VFC<props> = (props) => {
         </div>
         <div className={'filter__item'}>
           <label className={'checkbox'}>
-            <input onChange={(e) => handleCheckbox(e, 'product')} type="checkbox" name="VBR"/>
+            <input
+              onChange={(e) => handleCheckbox(e, 'product')}
+              type="checkbox"
+              name="VBR"
+            />
             <div>VBR</div>
             <span className="checkmark"/>
           </label>
         </div>
         <div className={'filter__item'}>
           <label className={'checkbox'}>
-            <input onChange={(e) => handleCheckbox(e, 'product')} type="checkbox" name="Veeam ONE" />
+            <input
+              onChange={(e) => handleCheckbox(e, 'product')}
+              type="checkbox"
+              name="Veeam ONE"
+            />
             <div>Veeam ONE</div>
             <span className="checkmark"/>
           </label>
         </div>
         <div className={'filter__item'}>
           <label className={'checkbox'}>
-            <input onChange={(e) => handleCheckbox(e, 'product')} type="checkbox" name="VBO"/>
+            <input
+              onChange={(e) => handleCheckbox(e, 'product')}
+              type="checkbox"
+              name="VBO"
+            />
             <div>VBO</div>
             <span className="checkmark"/>
+
           </label>
         </div>
       </div>
@@ -58,14 +94,22 @@ export const Filters: VFC<props> = (props) => {
         </div>
         <div className={'filter__item'}>
           <label className={'checkbox'}>
-            <input onChange={(e) => handleCheckbox(e, 'visibility')} type="checkbox" name="Internal only"/>
+            <input
+              onChange={(e) => handleCheckbox(e, 'visibility')}
+              type="checkbox"
+              name="Partners"
+            />
             <div>Internal only</div>
             <span className="checkmark"/>
           </label>
         </div>
         <div className={'filter__item'}>
           <label className={'checkbox'}>
-            <input onChange={(e) => handleCheckbox(e, 'visibility')} type="checkbox" id="Public" name="Public" className={'checkbox'}/>
+            <input
+              onChange={(e) => handleCheckbox(e, 'visibility')}
+              type="checkbox"
+              name="Public"
+            />
             <div>Public</div>
             <span className="checkmark"/>
           </label>
