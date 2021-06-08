@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
-import { CardItem } from "./components/CardItem";
-import { filterQuery, Filters, filterType } from "./components/Filters";
-import logo from './logo.svg';
+import { Filters } from "./components/Filters";
 import './styles/app/app.scss';
+import { MainBlock } from "./components/MainBlock";
 
 const testData = {
   "data": [
@@ -17,7 +16,8 @@ const testData = {
       "visibility": "Public",
       "link": "https://www.veeam.com/kb3011",
       "downloadLink": "https://...",
-      "editFormLink": "https://..."
+      "editFormLink": "https://...",
+      "rating": "15"
     },
     {
       "id": 2,
@@ -29,7 +29,8 @@ const testData = {
       "visibility": "Partners",
       "link": "https://bp.veeam.com/vbr/",
       "downloadLink": "https://...",
-      "editFormLink": "https://..."
+      "editFormLink": "https://...",
+      "rating": "11"
     },
     {
       "id": 3,
@@ -41,7 +42,8 @@ const testData = {
       "visibility": "Partners",
       "link": "https://bp.veeam.com/vbo/",
       "downloadLink": "https://...",
-      "editFormLink": "https://..."
+      "editFormLink": "https://...",
+      "rating": "7"
     },
     {
       "id": 4,
@@ -53,9 +55,9 @@ const testData = {
       "visibility": "Public",
       "link": "https://www.veeam.com/ru/virtualization-management-one-solution.html",
       "downloadLink": "https://...",
-        "editFormLink": "https://..."
+      "editFormLink": "https://...",
+      "rating": "66"
     }
-
   ]
 }
 export type productType = 'VBR' | 'Veeam ONE' | 'VBO'
@@ -72,90 +74,17 @@ export type Data = {
   link: string
   downloadLink: string
   editFormLink: string
+  rating: number
 }
 
 function App() {
-  const string = JSON.stringify(testData)
-  const [data, setData] = useState<Array<Data>>([...JSON.parse(string).data])
-  const [active, setActive] = useState<sortingType | null>(null)
+  const parsedOriginData = [...JSON.parse(JSON.stringify(testData)).data] as Array<Data>
+  const [data, setData] = useState<Array<Data>>(parsedOriginData)
 
-  const calculateRecentPublications = (): number => {
-    const currentData = Date.now(),
-    recentPeriod = 2628000000,
-    periodBeforePub = currentData - recentPeriod
-    let recentPubCount = 0
-    for (let item of data) {
-      const pubDate = Date.parse(item.publicationDate)
-      if (pubDate > periodBeforePub) recentPubCount += 1
-    }
-    return recentPubCount
-  }
-  const sortData = (sortBy: sortingType): void => {
-    if (sortBy === "resent") {
-      if (active === "resent") {
-        setData([...data].sort((a, b) => a.id - b.id))
-        setActive(null)
-        return
-      }
-      setActive("resent")
-      setData((data) => {
-        return [...data.sort((a, b) => {
-          return Date.parse(b.publicationDate) - Date.parse(a.publicationDate)
-        })]
-      })
-    }
-    if (sortBy === "popular") {
-      if (active === "popular") {
-        setData([...JSON.parse(string).data])
-        setActive(null)
-        return
-      }
-      setActive("popular")
-    }
-  }
-  const filterData = (query: filterQuery) => {
-    const filteredData = [...JSON.parse(string).data as Array<Data>].filter( (item) => {
-      let key: filterType
-      for ( key in query) {
-        if (query.hasOwnProperty(key)){
-          // @ts-ignore
-          if (item[key] === undefined || !query[key].includes(item[key])) {
-            return false;
-          }
-        }
-      }
-      return true;
-    });
-    setData(filteredData);
-  };
   return (
     <div className="app">
-      <Filters filterData={filterData}/>
-      <div className={'main app__main'}>
-        <div className={'main__header'}>
-          <div className={'main__count-data'}>
-            <div>Total amount: {data.length}</div>
-            <div>Uploaded in last month: {calculateRecentPublications()}</div>
-
-          </div>
-          <div className={'main__sorting'}>
-            <button
-              className={active === "popular" ? 'main__sorting_active' : ''}
-              onClick={() => sortData("popular")}
-            >Popular</button>
-            |
-            <button
-              className={active === "resent" ? 'main__sorting_active' : ''}
-              onClick={() => sortData("resent")}
-            >Recent</button>
-          </div>
-        </div>
-        <div className={'listing'}>
-          {data.map(item => (
-            <CardItem key={item.id} {...item}/>
-          ))}
-        </div>
-      </div>
+      <Filters originData={parsedOriginData} setData={setData}/>
+      <MainBlock data={data} setData={setData} />
     </div>
   );
 }

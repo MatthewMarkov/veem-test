@@ -2,7 +2,8 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, VFC 
 import { Data, productType, visibilityType } from "../App";
 
 type props = {
-  filterData: (query: {product?: Array<productType>, visibility?: Array<visibilityType>}) => void
+  originData: Array<Data>
+  setData: Dispatch<SetStateAction<Data[]>>
 }
 export type filterType = 'product' | 'visibility'
 export type filtersCollectionType = {product: Array<productType>, visibility: Array<visibilityType> }
@@ -10,14 +11,31 @@ export type filterQuery = {
   product?: Array<productType>
   visibility?: Array<visibilityType>
 }
-export const Filters: VFC<props> = (props) => {
+export const Filters: VFC<props> = ({originData, setData}) => {
   const [filter, setFilter] = useState<filtersCollectionType>({
     product: [],
     visibility: []
   })
+
+  const filterData = (query: filterQuery) => {
+    const filteredData = originData.filter( (item) => {
+      let key: filterType
+      for ( key in query) {
+        if (query.hasOwnProperty(key)){
+          // @ts-ignore
+          if (item[key] === undefined || !query[key].includes(item[key])) {
+            return false;
+          }
+        }
+      }
+      return true;
+    });
+    setData(filteredData);
+  };
+
   useEffect(() => {
     const query = createQuery(filter)
-    props.filterData(query)
+    filterData(query)
   }, [filter])
 
   const handleCheckbox = (event: ChangeEvent<HTMLInputElement>, filter: filterType): void => {
